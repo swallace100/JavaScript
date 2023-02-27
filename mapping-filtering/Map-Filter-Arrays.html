@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- #region -->
+    <meta charset="utf-8" />
+    <meta name="referrer" content="unsafe-url" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Map and Filter: Int, String, Object</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.css"
+      media="all"
+    />
+    <!-- #endregion -->
+
+    <!-- All CSS in here -->
+    <style>
+      footer {
+        display: none;
+      }
+      .title-div {
+        margin-top: 50px;
+      }
+
+      .title-text {
+        font-size: 40px;
+      }
+
+      .subtitle-text {
+        font-size: 30px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+      .description-text {
+        font-size: 20px;
+        margin-top: 20px;
+      }
+      .footer {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body data-ins-css="false" data-ui="full-height">
+    <!-- Do Not Edit or Remove this nav element -->
+
+    <header>
+      <div class="container d-flex footer">
+        <div class="col">
+          <div class="row d-flex title-div">
+            <h1 class="title-text">Mapping and Filtering</h1>
+          </div>
+          <div class="row d-flex">
+            <h1 class="subtitle-text">Examples for int, string, and objects</h1>
+          </div>
+          <div class="row d-flex">
+            <h1 class="description-text">Map all ages in an array (int)</h1>
+          </div>
+          <div
+            class="clone-age-container container d-flex justify-content-center row"
+          ></div>
+          <div class="row d-flex">
+            <h1 class="description-text">
+              Filter than map only the ages above 18 (int)
+            </h1>
+          </div>
+          <div
+            class="clone-adult-container container d-flex justify-content-center row"
+          ></div>
+          <div class="row d-flex">
+            <h1 class="description-text">
+              Map a list of employees in an array (string)
+            </h1>
+          </div>
+          <div
+            class="clone-employee-name-container container d-flex justify-content-center row"
+          ></div>
+          <div class="row d-flex">
+            <h1 class="description-text">
+              Filter then map only the employees with a first name of John
+              (string)
+            </h1>
+          </div>
+          <div
+            class="clone-employee-john-container container d-flex justify-content-center row"
+          ></div>
+          <div class="row d-flex">
+            <h1 class="description-text">
+              Map an array of objects made up of employees (object)
+            </h1>
+          </div>
+          <div
+            class="clone-employee-department-container container d-flex justify-content-center row"
+          ></div>
+          <div class="row d-flex">
+            <h1 class="description-text">
+              Filter then map only the employees in the Sales department
+              (object)
+            </h1>
+          </div>
+          <div
+            class="clone-sales-department-container container d-flex justify-content-center row"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <script id="templateAges" type="text/template">
+      <div class="card text-center bg-light m-2" style="max-width: 18rem" id="">
+        <div class="card-header card-title text-center mb-0 description-text" font-size: 2rem>
+          Person Age
+        </div>
+        <div class="card-body">
+          <div class="card-body text-center">
+            <div class="card-text">...</div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script id="templateFirstNames" type="text/template">
+      <div class="card text-center bg-light m-2" style="max-width: 18rem" id="">
+          <div class="card-header card-title text-center mb-0 description-text" font-size: 2rem>Employee Name</div>
+          <div class="card-body">
+            <div class="card-body text-center">
+                <div class="card-text">...</div>
+            </div>
+          </div>
+        </div>
+    </script>
+
+    <script id="templateSalesEmployees" type="text/template">
+      <div class="card text-center bg-light m-2" style="max-width: 18rem" id="">
+          <div class="card-header card-title text-center mb-0 description-text" font-size: 2rem>Employee Name</div>
+          <div class="card-body">
+            <div class="card-body text-center">
+                <div class="card-text">...</div>
+                <div class="card-text-department">...</div>
+            </div>
+          </div>
+        </div>
+    </script>
+
+    <!-- Javascript code is below -->
+    <script>
+      // Global variables
+      var agesArray = [45, 56, 10, 3, 4, 89, 149, 34, 20, 12];
+      var employeeNames = [
+        "John Ratcliffe",
+        "Cassie Gibbons",
+        "Ephraim Holman",
+        "Asim Ayala",
+        "John Villegas",
+        "Kanye Bond",
+        "Leoni Akhtar",
+        "Duane Velasquez",
+        "Elana Stark",
+        "Gracie-Leigh Hutchings",
+      ];
+      var people = [
+        {
+          id: 1,
+          name: "Barbie Ismay",
+          department: "Sales",
+        },
+        {
+          id: 2,
+          name: "Winthrop Erbe",
+          department: "Magic Show",
+        },
+        {
+          id: 3,
+          name: "Cori MacGettigen",
+          department: "Clown Car",
+        },
+        {
+          id: 4,
+          name: "Robyn Stannering",
+          department: "Lighting",
+        },
+        {
+          id: 5,
+          name: "Kile Iannini",
+          department: "Tents",
+        },
+      ];
+
+      // Start Up function
+      function startUp() {
+        getAdults();
+        searchFirstNames();
+        searchByDepartment();
+      }
+
+      // Get templates
+      function getAgeTemplate() {
+        var cloneTemplate = $("#templateAges").html();
+        var clonedHtml = $(cloneTemplate).clone();
+        return clonedHtml;
+      }
+
+      function getFirstNameTemplate() {
+        var cloneTemplate = $("#templateFirstNames").html();
+        var clonedHtml = $(cloneTemplate).clone();
+        return clonedHtml;
+      }
+
+      function getDepartmentTemplate() {
+        var cloneTemplate = $("#templateSalesEmployees").html();
+        var clonedHtml = $(cloneTemplate).clone();
+        return clonedHtml;
+      }
+
+      // Map and render ages
+      var renderAllAges = (ages) => {
+        var mapAges = ages.map(mapOfAges);
+        $(".clone-age-container").append(mapAges);
+      };
+
+      var renderAllAdults = (ages) => {
+        var mapAges = ages.map(mapOfAges);
+        $(".clone-adult-container").append(mapAges);
+      };
+
+      function mapOfAges(age) {
+        var template = getAgeTemplate();
+        template.find(".card-text").text(age);
+        template.attr("id", age).html();
+
+        return template;
+      }
+
+      // Map and render employee names
+      var renderAllEmployeeNames = (employees) => {
+        var mapEmployees = employees.map(mapOfEmployees);
+        $(".clone-employee-name-container").append(mapEmployees);
+      };
+
+      var renderAllJohns = (employees) => {
+        var mapEmployees = employees.map(mapOfEmployees);
+        $(".clone-employee-john-container").append(mapEmployees);
+      };
+
+      function mapOfEmployees(employee) {
+        var template = getFirstNameTemplate();
+        template.find(".card-text").text(employee);
+        template.attr("id", employee).html();
+
+        return template;
+      }
+
+      // Map and render employee names and departments
+      var renderAllDepartmentEmployeeNames = (employees) => {
+        var mapEmployees = employees.map(mapOfDepartmentEmployees);
+        $(".clone-employee-department-container").append(mapEmployees);
+      };
+
+      var renderAllSales = (employees) => {
+        var mapEmployees = employees.map(mapOfDepartmentEmployees);
+        $(".clone-sales-department-container").append(mapEmployees);
+      };
+
+      function mapOfDepartmentEmployees(employee) {
+        var template = getFirstNameTemplate();
+
+        template.find(".card-text").text(employee.name);
+        template.find(".card-text-department").text(employee.department);
+        template.attr("id", employee.id).html();
+
+        return template;
+      }
+
+      // Filter then map all ages that are over 18 years old
+      var getAdults = function () {
+        renderAllAges(agesArray);
+        filteringFunction = function (age) {
+          let result = false;
+
+          result = age >= 18;
+          return result;
+        };
+
+        var filterAges = agesArray.filter(filteringFunction);
+        renderAllAdults(filterAges);
+        return filterAges;
+      };
+
+      // Filter then map the employees with the first name John.
+      var searchFirstNames = function () {
+        var nameForQuery = "John";
+        renderAllEmployeeNames(employeeNames);
+
+        filteringFunction = function (employee) {
+          let result = false;
+          const splitName = employee.split(" ");
+          const firstName = splitName[0];
+
+          result = firstName === nameForQuery;
+          return result;
+        };
+
+        var filterFirstNames = employeeNames.filter(filteringFunction);
+        renderAllJohns(filterFirstNames);
+
+        return filterFirstNames;
+      };
+
+      // Filter then map the name of the employee in the Sales department.
+      var searchByDepartment = function () {
+        var departmentToSearch = "Sales";
+        renderAllDepartmentEmployeeNames(people);
+
+        filteringFunction = function (employee) {
+          let result = false;
+
+          result = employee.department === departmentToSearch;
+          return result;
+        };
+
+        var filterDepartment = people.filter(filteringFunction);
+        renderAllSales(filterDepartment);
+        return filterDepartment;
+      };
+
+      startUp();
+    </script>
+  </body>
+</html>
